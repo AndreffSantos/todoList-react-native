@@ -1,0 +1,1 @@
+# Primeiro app feito com React Native.
