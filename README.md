@@ -1,1 +1,1 @@
-# Primeiro app feito com React Native.
+# Todo List app feito com React Native.
