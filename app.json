@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "todo_list",
-    "slug": "todo_list",
+    "name": "todoApp",
+    "slug": "todoApp",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
