@@ -1,14 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
-// import { TextInput } from 'react-native-web';
+import { Text, View, TextInput, Button, Pressable } from 'react-native';
+import styles from './Styles/style';
 
 export default function App() {
   const [text, setText] = React.useState('');
-  const [list, setList] = React.useState(['Criar todo list']);
+  const [list, setList] = React.useState([]);
 
   return (
     <View style={styles.container}>
+      <View>
+        <Text style={ { fontSize: 30 } }>Minha Lista de Tarefas</Text>
+        <Text>Adicione a tarefa a ser realizada</Text>
+        <Text>Clique na tarefa para removela</Text>
+        <Text>Precione e segure ma marcar com tarefa realizada</Text>
+      </View>
       <TextInput
         style={styles.input}
         placeholder='Sua tarefa'
@@ -16,31 +22,40 @@ export default function App() {
         onChangeText={setText}
       />
       <Button
-        color="#11a36a"
-        onPress={ () => {
+        onPress={ (PressEvent) => {
+          text.length ? setList([...list, { text, id: list.length, className: styles.text }]) : null;
           setText('');
-          setList([...list, text]);
         } }
         title="adicionar tarefa"
       />
-      { list.map((task) => <Text key={task}>{task}</Text>) }
+      <View style={styles.tasksContainer}>
+        {
+          list.length ? list.map((task) => (
+            <Pressable
+              style={styles.task}
+              key={task.id}
+              onPress={ () => {
+                list.splice(list.indexOf(task), 1);
+                setList([...list])
+              } }
+              onLongPress={ () => {
+
+                list[task.id].className = list[task.id].className === styles.text
+                ? list[task.id].className = styles.completed
+                : list[task.id].className = styles.text;
+                setList([...list])
+              } }
+            >
+              <Text
+                style={task.className}
+              >
+                {task.text}
+              </Text>
+            </Pressable>
+          )) : <Text>Lista Fazia</Text>
+        }
+      </View>
       <StatusBar style="auto" />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    height: 40,
-    width: 400,
-    margin: 10,
-    borderWidth: 1,
-    padding: 10,
-  },
-});
